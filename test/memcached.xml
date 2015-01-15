@@ -1,0 +1,28 @@
+<memcached>
+	<!-- name 属性是程序中使用Cache的唯一标识;socketpool 属性将会关联到后面的socketpool配置; -->
+	<client name="mclient_0" compressEnable="true" defaultEncoding="UTF-8"
+		socketpool="pool_0">
+		<!-- 可选，用来处理出错情况 
+		<errorHandler>com.alisoft.xplatform.asf.cache.memcached.MemcachedErrorHandler
+		</errorHandler>-->
+	</client>
+
+	<!--
+		name 属性和client 配置中的socketpool 属性相关联。
+		maintSleep属性是后台线程管理SocketIO池的检查间隔时间，如果设置为0，则表明不需要后台线程维护SocketIO线程池，默认需要管理。
+		socketTO 属性是Socket操作超时配置，单位ms。 aliveCheck
+		属性表示在使用Socket以前是否先检查Socket状态。
+	-->
+	<socketpool name="pool_0" maintSleep="5000" socketTO="3000"
+		failover="true" aliveCheck="true" initConn="5" minConn="5" maxConn="250"
+		nagle="false">
+		<!-- 设置memcache服务端实例地址.多个地址用","隔开 -->
+		<servers>192.168.80.100:11211,192.168.80.100:11212</servers>
+		<!--
+			可选配置。表明了上面设置的服务器实例的Load权重. 例如 <weights>3,7</weights> 表示30% load 在
+			10.2.224.36:33001, 70% load 在 10.2.224.46:33001
+		-->
+		<weights>3,7</weights>
+		
+	</socketpool>
+</memcached>
